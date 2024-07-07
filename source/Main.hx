@@ -92,12 +92,9 @@ class Main extends Sprite
 		var gameCreate:FlxGame;
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, #if (flixel < "5.0.0") zoom, #end framerate, framerate, skipSplash));
 		
-		fpsCounter = new FPS(10, 3, 0xFFFFFF);
+		fpsCounter = new FPS(10, 30, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
-
-		infoCounter = new Overlay(20, 3);
-		addChild(infoCounter);
 	}
 
 	var game:FlxGame;
