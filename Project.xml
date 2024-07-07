@@ -119,6 +119,7 @@
 	<haxelib name="discord_rpc" if="android"/>
 	<haxelib name="linc_luajit" if="android"/>
   <haxelib name="actuate" />
+  <haxelib name="extension-androidtools" if="android" />
   <haxelib name="extension-webm" if="desktop" />
 
 	<!-- <haxelib name="hxcpp-debug-server" if="desktop"/> -->
