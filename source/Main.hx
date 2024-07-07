@@ -73,13 +73,23 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
+		#if android
+		gameWidth = 1280;
+		gameHeight = 720;
+		zoom = 1;
+		#end
+
 		#if !debug
 		initialState = TitleState;
 		#end
 
-		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
+		//game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 
+		var game:FlxGame;
+		game = new FlxGame(gameWidth, gameHeight, initialState, #if (flixel < "5.0.0") zoom, #end framerate, framerate, skipSplash);
 		addChild(game);
+
+		//addChild(game);
 
 		var ourSource:String = "assets/videos/DO NOT DELETE OR GAME WILL CRASH/dontDelete.webm";
 
@@ -111,7 +121,7 @@ class Main extends Sprite
 		#end
 	}
 
-	var game:FlxGame;
+	//var game:FlxGame;
 
 	var fpsCounter:FPS;
 
