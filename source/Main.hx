@@ -38,6 +38,7 @@ class Main extends Sprite
 
 	public function new()
 	{
+		SUtil.check();
 		super();
 
 		
@@ -128,9 +129,7 @@ class Main extends Sprite
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
-
 		#end
-		SUtil.check();
 	}
 
 	//var game:FlxGame;
