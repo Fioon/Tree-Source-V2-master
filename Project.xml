@@ -116,10 +116,10 @@
 	<haxelib name="newgrounds"/>
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="polymod"/>
-	<haxelib name="discord_rpc" if="windows"/>
-	<haxelib name="linc_luajit" if="windows"/>
+	<haxelib name="discord_rpc" if="android"/>
+	<haxelib name="linc_luajit" if="android"/>
   <haxelib name="actuate" />
-  <haxelib name="extension-webm" if="desktop" />
+  <haxelib name="extension-webm" if="mobile" />
 
 	<!-- <haxelib name="hxcpp-debug-server" if="desktop"/> -->
 
