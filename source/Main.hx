@@ -42,7 +42,6 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
-    SUtil.check();
 
 		if (stage != null)
 		{
@@ -63,6 +62,7 @@ class Main extends Sprite
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 		}
 
+		SUtil.applicationAlert('init', 'a');
 		setupGame();
 	}
 
@@ -85,6 +85,8 @@ class Main extends Sprite
 		gameHeight = 720;
 		zoom = 1;
 		#end
+
+		SUtil.check();
 			
 		//game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 		//addChild(game);
@@ -94,6 +96,8 @@ class Main extends Sprite
 		fpsCounter = new FPS(10, 30, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
+
+		SUtil.applicationAlert('setupGame', 'b');
 	}
 
 	var game:FlxGame;
