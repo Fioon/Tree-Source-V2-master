@@ -120,7 +120,7 @@ class SUtil
 		});
 	}
 
-	static function applicationAlert(title:String, description:String)
+	public static function applicationAlert(title:String, description:String)
 	{
 		Application.current.window.alert(description, title);
 	}
