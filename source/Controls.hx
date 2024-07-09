@@ -10,6 +10,11 @@ import flixel.input.actions.FlxActionSet;
 import flixel.input.gamepad.FlxGamepadButton;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.keyboard.FlxKey;
+#if android
+import mobile.Hitbox;
+import mobile.FlxVirtualPad;
+import flixel.ui.FlxButton;
+#end
 
 #if (haxe >= "4.1.0")
 enum abstract Action(String) to String from String
@@ -266,7 +271,7 @@ class Controls extends FlxActionSet
 	}
 	#end
 
-	#if mobileC
+	#if android
 	public var trackedinputs:Array<FlxActionInput> = [];
 
 	public function addbutton(action:FlxActionDigital, button:FlxButton, state:FlxInputState) {
