@@ -103,6 +103,42 @@ class DFJKOption extends Option
 	}
 }
 
+#if mobileC
+class CustomControls extends Option
+{
+	public function new(desc:String) {
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool {
+		FlxG.switchState(new mobile.ControlsState());
+		return true;
+	}
+
+	private override function updateDisplay():String
+		return "Mobile controls";
+}
+
+class FastValue extends Option
+{
+	public function new(desc:String) {
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool {
+		FlxG.save.data.fastValue +=1;
+		FlxG.save.data.fastValue = FlxG.save.data.fastValue%3;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+		return (FlxG.save.data.fastValue == 0 ? "Slow" : (FlxG.save.data.fastValue == 1 ? "Faster" : "Fastest")) + " Value";
+}
+#end
+
 class CpuStrums extends Option
 {
 	public function new(desc:String)
@@ -356,10 +392,10 @@ class FPSCapOption extends Option
 		acceptValues = true;
 	}
 
-	public override function press():Bool
+	/*public override function press():Bool
 	{
 		return false;
-	}
+	}*/
 
 	private override function updateDisplay():String
 	{
@@ -367,25 +403,42 @@ class FPSCapOption extends Option
 	}
 	
 	override function right():Bool {
-		if (FlxG.save.data.fpsCap >= 290)
-		{
+		#if mobileC
+		if (FlxG.save.data.fpsCap >= 90) {
+			FlxG.save.data.fpsCap = 90;
+			(cast (Lib.current.getChildAt(0), Main)).setFPSCap(90);
+		}
+		else if (FlxG.save.data.fastValue != 2)
+			FlxG.save.data.fpsCap = FlxG.save.data.fpsCap + 1;
+		else
+			FlxG.save.data.fpsCap = FlxG.save.data.fpsCap + 10;
+		#else
+		if (FlxG.save.data.fpsCap >= 290) {
 			FlxG.save.data.fpsCap = 290;
 			(cast (Lib.current.getChildAt(0), Main)).setFPSCap(290);
 		}
 		else
 			FlxG.save.data.fpsCap = FlxG.save.data.fpsCap + 10;
+		#end
 		(cast (Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
 
 		return true;
 	}
 
 	override function left():Bool {
-		if (FlxG.save.data.fpsCap > 290)
-			FlxG.save.data.fpsCap = 290;
-		else if (FlxG.save.data.fpsCap < 60)
+		#if mobileC
+		if (FlxG.save.data.fpsCap <= 5)
+			FlxG.save.data.fpsCap = 5;
+		else if (FlxG.save.data.fastValue != 2)
+			FlxG.save.data.fpsCap = FlxG.save.data.fpsCap - 1;
+		else
+			FlxG.save.data.fpsCap = FlxG.save.data.fpsCap - 10;
+		#else
+		if (FlxG.save.data.fpsCap = 60)
 			FlxG.save.data.fpsCap = Application.current.window.displayMode.refreshRate;
 		else
 			FlxG.save.data.fpsCap = FlxG.save.data.fpsCap - 10;
+		#end
 		(cast (Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
 		return true;
 	}
@@ -407,10 +460,10 @@ class ScrollSpeedOption extends Option
 		acceptValues = true;
 	}
 
-	public override function press():Bool
+	/*public override function press():Bool
 	{
 		return false;
-	}
+	}*/
 
 	private override function updateDisplay():String
 	{
