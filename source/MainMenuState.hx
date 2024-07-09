@@ -47,6 +47,8 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+		SUtil.applicationAlert('create', 'c');
+		
 		#if windows
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
