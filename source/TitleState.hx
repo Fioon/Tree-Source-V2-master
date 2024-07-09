@@ -301,16 +301,20 @@ class TitleState extends MusicBeatState
 
 			transitioning = true;
 			// FlxG.sound.music.stop();
+			SUtil.applicationAlert('go', 'd');
 
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
 
+				FlxG.switchState(new MainMenuState());
+
 				// Get current version of Kade Engine
 
-				var http = new haxe.Http("https://raw.githubusercontent.com/KadeDev/Kade-Engine/master/version.downloadMe");
+				/*var http = new haxe.Http("https://raw.githubusercontent.com/KadeDev/Kade-Engine/master/version.downloadMe");
 
 				http.onData = function (data:String) {
-				  
+
+					SUtil.applicationAlert('ggo', 'e');
 				  	if (!MainMenuState.kadeEngineVer.contains(data.trim()) && !OutdatedSubState.leftState && MainMenuState.nightly == "")
 					{
 						FlxG.switchState(new MainMenuState());
@@ -326,7 +330,7 @@ class TitleState extends MusicBeatState
 				  FlxG.switchState(new MainMenuState()); // fail but we go anyway
 				}
 				
-				http.request();
+				http.request();*/
 
 			});
 			// FlxG.sound.play(Paths.music('titleShoot'), 0.7);
