@@ -43,6 +43,7 @@ class Main extends Sprite
 	{
 		super();
 
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, function(u:UncaughtErrorEvent));
 		if (stage != null)
 		{
 			init();
@@ -62,7 +63,7 @@ class Main extends Sprite
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 		}
 
-		SUtil.applicationAlert('init', 'a');
+		//SUtil.applicationAlert('init', 'a');
 		setupGame();
 	}
 
@@ -97,7 +98,7 @@ class Main extends Sprite
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
 
-		SUtil.applicationAlert('setupGame', 'b');
+		//SUtil.applicationAlert('setupGame', 'b');
 	}
 
 	var game:FlxGame;
@@ -126,5 +127,42 @@ class Main extends Sprite
 	public function getFPS():Float
 	{
 		return fpsCounter.currentFPS;
+	}
+	
+	public static function uncaughtErrorHandler()
+	{
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, function(u:UncaughtErrorEvent)
+		{
+			var callStack:Array<StackItem> = CallStack.exceptionStack(true);
+			var errMsg:String = '';
+
+			for (stackItem in callStack)
+			{
+				switch (stackItem)
+				{
+					case FilePos(s, file, line, column):
+						errMsg += file + ' (line ' + line + ')\n';
+					default:
+						Sys.println(stackItem);
+				}
+			}
+
+			errMsg += u.error;
+
+			Sys.println(errMsg);
+			SUtil.applicationAlert('Error!', errMsg);
+
+			try
+			{
+				if (!FileSystem.exists(SUtil.getPath() + 'crash/'))
+					FileSystem.createDirectory(SUtil.getPath() + 'crash/');
+
+				File.saveContent(SUtil.getPath() + 'crash/' + Application.current.meta.get('file') + '_' + FlxStringUtil.formatTime(Sys.time(), true) + '.log', errMsg + "\n");
+			}
+			catch (e:Dynamic)
+				SUtil.applicationAlert('Error!', "Clouldn't save the crash dump because: " + e);
+
+			System.exit(1);
+		});
 	}
 }
