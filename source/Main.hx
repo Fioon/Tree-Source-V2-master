@@ -135,7 +135,7 @@ class Main extends Sprite
 		return fpsCounter.currentFPS;
 	}
 	
-	public static function uncaughtErrorHandler()
+	/*public static function uncaughtErrorHandler()
 	{
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, function(u:UncaughtErrorEvent)
 		{
@@ -170,5 +170,5 @@ class Main extends Sprite
 
 			System.exit(1);
 		});
-	}
+	}*/
 }
