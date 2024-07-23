@@ -301,7 +301,7 @@ class TitleState extends MusicBeatState
 
 			transitioning = true;
 			// FlxG.sound.music.stop();
-			SUtil.applicationAlert('go', 'd');
+			//SUtil.applicationAlert('go', 'd');
 
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
