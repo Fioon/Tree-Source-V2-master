@@ -242,7 +242,7 @@ class PlayState extends MusicBeatState
 
 		try{
                     #if android
-		    executeModchart = FileSystem.exists(SUtil.getPath() + Paths.lua(PlayState.SONG.song.toLowerCase()  + "/modchart"));
+		    executeModchart = FileSystem.exists(SUtil.getPath() + "assets/data/" + PlayState.SONG.song.toLowerCase() + "/modchart.lua"));
 		    #end	
 		    /*#if !cpp
 		    executeModchart = false; // FORCE disable for non cpp targets
