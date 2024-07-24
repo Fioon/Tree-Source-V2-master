@@ -2,7 +2,7 @@
 
 // Lua
 #if android
-import flixel.tweens.FlxEase;
+/*import flixel.tweens.FlxEase;
 import openfl.filters.ShaderFilter;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -762,3 +762,4 @@ class ModchartState
     }
 }
 #end
+*/
