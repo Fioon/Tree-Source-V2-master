@@ -1,4 +1,4 @@
-package;
+/*package;
 
 import openfl.display.BlendMode;
 import openfl.text.TextFormat;
@@ -172,3 +172,4 @@ class Main extends Sprite
 		});
 	}*/
 }
+*/
