@@ -380,14 +380,14 @@ class ModchartState
 				//if (PlayState.isSM)
 					//path = PlayState.pathToSm + "/modchart.lua";
 
-				result = LuaL.dofile(lua, path); // execute le file
+				/*result = LuaL.dofile(lua, path); // execute le file
 	
 				if (result != 0)
 				{
 					Application.current.window.alert("Cant path : LUA COMPILE ERROR:\n" + Lua.tostring(lua,result),"Kade Engine Modcharts");
 					lua = null;
 					LoadingState.loadAndSwitchState(new MainMenuState());
-				}
+				}*/
 
 				// get some fukin globals up in here bois
 	
