@@ -247,7 +247,7 @@ class PlayState extends MusicBeatState
 		    /*#if !cpp
 		    executeModchart = false; // FORCE disable for non cpp targets
 		    #end*/
-		    trace('Mod chart: ' + executeModchart + " - " + Paths.lua(PlayState.SONG.song.toLowerCase() + "/modchart"));
+		    trace('Mod chart: ' + executeModchart + " - " + FileSystem.exists(SUtil.getPath() + "assets/data/" + PlayState.SONG.song.toLowerCase() + "/modchart.lua"));
 		}
 		catch (e:Dynamic)
 		{
@@ -1265,6 +1265,7 @@ class PlayState extends MusicBeatState
 	var luaWiggles:Array<WiggleEffect> = [];
 
 	#if android
+	public static var Modchart:String = SUtil.getPath() + "assets/data/" + PlayState.SONG.song.toLowerCase() + "/modchart.lua";
 	public static var luaModchart:ModchartState = null;
 	#end
 
@@ -1278,9 +1279,9 @@ class PlayState extends MusicBeatState
 
 		#if android
 	        try{
-		    if (executeModchart)
+		    if (executeModchart && FileSystem.exists(Modchart))
 		    {
-			luaModchart = ModchartState.createModchartState();
+			luaModchart = ModchartState.createModchartState(Modchart);
 			luaModchart.executeState('start',[PlayState.SONG.song]);
 		    }
 		}
