@@ -357,7 +357,7 @@ class ModchartState
 
     // LUA SHIT
 
-    function new()
+    function new(script:String)
     {
         		trace('opening a lua state (because we are cool :))');
 				lua = LuaL.newstate();
@@ -376,11 +376,11 @@ class ModchartState
 				}
 
 	                        //var result:String = null;
-				var path = FileSystem.exists(SUtil.getPath() + "assets/data/" + PlayState.SONG.song.toLowerCase() + "/modchart.lua");
+				//var path = FileSystem.exists(SUtil.getPath() + "assets/data/" + PlayState.SONG.song.toLowerCase() + "/modchart.lua");
 				//if (PlayState.isSM)
 					//path = PlayState.pathToSm + "/modchart.lua";
 
-				var result = LuaL.dofile(lua, path); // execute le file
+				//var result = LuaL.dofile(lua, path); // execute le file
 	
 				//if (result != 0)
 				//{
@@ -390,7 +390,24 @@ class ModchartState
 				//}
 
 				// get some fukin globals up in here bois
-	
+	                        try{
+			var result:Dynamic = LuaL.dofile(lua, script);
+			var resultStr:String = Lua.tostring(lua, result);
+			if(resultStr != null && result != 0) {
+				trace('Error on lua script! ' + resultStr);
+				#if (windows || android)
+				lime.app.Application.current.window.alert(resultStr, 'Error on lua script!');
+				//#else
+				//luaTrace('Error loading lua script: "$script"\n' + resultStr, true, false, FlxColor.RED);
+				#end
+				lua = null;
+				return;
+			}
+		} catch(e:Dynamic) {
+			trace(e);
+			Application.current.window.alert("Cant path : LUA COMPILE ERROR:\n" + e,"Kade Engine Modcharts");
+			return;
+		}
 				setVar("difficulty", PlayState.storyDifficulty);
 				setVar("bpm", Conductor.bpm);
 				setVar("scrollspeed", FlxG.save.data.scrollSpeed != 1 ? FlxG.save.data.scrollSpeed : PlayState.SONG.speed);
@@ -958,9 +975,9 @@ class ModchartState
         return Lua.tostring(lua,callLua(name, args));
     }
 
-    public static function createModchartState():ModchartState
+    public static function createModchartState(script:String):ModchartState
     {
-        return new ModchartState();
+        return new ModchartState(script);
     }
 }
 #end
