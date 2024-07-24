@@ -375,11 +375,12 @@ class ModchartState
 					case 'philly-nice': songLowercase = 'philly';
 				}
 
+	                        var result : Any = null;
 				var path = FileSystem.exists(SUtil.getPath() + "assets/data/" + PlayState.SONG.song.toLowerCase() + "/modchart.lua");
 				//if (PlayState.isSM)
 					//path = PlayState.pathToSm + "/modchart.lua";
 
-				var result = LuaL.dofile(lua, path); // execute le file
+				result = LuaL.dofile(lua, path); // execute le file
 	
 				if (result != 0)
 				{
