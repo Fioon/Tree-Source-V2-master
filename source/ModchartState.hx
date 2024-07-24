@@ -374,7 +374,7 @@ class ModchartState
 					case 'philly-nice': songLowercase = 'philly';
 				}
 
-				var path = Paths.lua(songLowercase + "/modchart");
+				var path = FileSystem.exists(SUtil.getPath() + "assets/data/" + PlayState.SONG.song.toLowerCase() + "/modchart.lua");
 				//if (PlayState.isSM)
 					//path = PlayState.pathToSm + "/modchart.lua";
 
@@ -382,7 +382,7 @@ class ModchartState
 	
 				if (result != 0)
 				{
-					Application.current.window.alert("LUA COMPILE ERROR:\n" + Lua.tostring(lua,result),"Kade Engine Modcharts");
+					Application.current.window.alert("Cant path : LUA COMPILE ERROR:\n" + Lua.tostring(lua,result),"Kade Engine Modcharts");
 					lua = null;
 					LoadingState.loadAndSwitchState(new MainMenuState());
 				}
