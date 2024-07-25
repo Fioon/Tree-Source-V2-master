@@ -67,6 +67,10 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
+
+	private var swaying:Bool = false;
+	private var move:Bool = false;
+	
 	public static var instance:PlayState = null;
 
 	public static var curStage:String = '';
@@ -3445,6 +3449,128 @@ class PlayState extends MusicBeatState
 		DiscordClient.changePresence(detailsText + " " + SONG.song + " (" + storyDifficultyText + ") " + Ratings.GenerateLetterRank(accuracy), "Acc: " + HelperFunctions.truncateFloat(accuracy, 2) + "% | Score: " + songScore + " | Misses: " + misses  , iconRPC,true,  songLength - Conductor.songPosition);
 		#end
 
+		 if(curSong.toLowerCase() == 'trunk'){
+        if(curstep >= 320){
+            swaying = true;
+		    move = true;
+		}
+		if(step >= 447){
+            swaying = false;
+		    move = false;
+	    }
+	    if(step >= 831){
+            swaying = true;
+		    move = true;
+		}
+	    if(step >= 959){
+            swaying = false;
+		    move = false;
+		}	
+	    if(step == 464){
+		    FlxG.camera.zoom = 1.2;
+		    FlxG.camera.angle = 10;
+		    camHUD.angle = 10;
+		}
+	    if(step == 468){
+		    FlxG.camera.zoom = 1.8;
+		    FlxG.camera.angle = 30;
+		    camHUD.angle = 30;
+		}
+	    if(step == 472){
+		    FlxG.camera.zoom = 2.3;
+		    FlxG.camera.angle = 50;
+		    camHUD.angle = 50;
+        }
+	    if(step == 476){
+		    FlxG.camera.zoom = 1;
+		    FlxG.camera.angle = 0;
+		    camHUD.angle = 0;
+        }	
+	    if(step == 528){
+		    FlxG.camera.zoom = 1.2;
+		    FlxG.camera.angle = 10;
+		    camHUD.angle = 10;
+        }
+	    if(step == 532){
+		    FlxG.camera.zoom = 1.8;
+		    FlxG.camera.angle = 30;
+		    camHUD.angle = 30;
+        }
+	    if(step == 536){
+		    FlxG.camera.zoom = 2.3;
+		    FlxG.camera.angle = 50;
+		    camHUD.angle = 50;
+        }
+	    if(step == 540){
+		    FlxG.camera.zoom = 1;
+		    FlxG.camera.angle = 0;
+		    camHUD.angle = 0;
+        }
+	    if(step == 576){
+		    FlxG.camera.zoom = 0.6;
+		    camHUD.zoom = 0.6;
+        }
+	    if(step == 619){
+		    FlxG.camera.zoom = 0.3;
+		    camHUD.zoom = 0.3;
+        }
+	    if(step == 639){
+		   FlxG.camera.zoom = 1.0;
+		   camHUD.zoom = 1.0;
+        }	
+	    if(step == 651){
+		    FlxG.camera.zoom = 0.6;
+		    camHUD.zoom = 0.6;
+        }
+	    if(step == 670){
+		    FlxG.camera.zoom = 0.3;
+		    camHUD.zoom = 0.3;
+        }
+	    if(step == 703){
+		    FlxG.camera.zoom = 1.0;
+		    camHUD.zoom = 1.0;
+        }
+	    if(step == 976){
+		    FlxG.camera.zoom = 1.2;
+		    FlxG.camera.angle = 10;
+		    camHUD.angle = 10;
+        }
+	    if(step == 980){
+		    FlxG.camera.zoom = 1.8;
+		     FlxG.camera.angle = 30;
+		    camHUD.angle = 30;
+        }
+	    if(step == 984){
+		    FlxG.camera.zoom = 2.3;
+    		 FlxG.camera.angle = 50;
+		    camHUD.angle = 50;
+        }
+	    if(step == 988){
+		    FlxG.camera.zoom = 1;
+		     FlxG.camera.angle = 0;
+		    camHUD.angle = 0;
+        }	
+	    if(step == 1040){
+		    FlxG.camera.zoom = 1.2;
+		     FlxG.camera.angle = 10;
+		    camHUD.angle = 10;
+        }
+	    if(step == 1044){
+		    FlxG.camera.zoom = 1.8;
+		     FlxG.camera.angle = 30;
+		    camHUD.angle = 30;
+        }
+	    if(step == 1048){
+		    FlxG.camera.zoom = 2.3;
+		     FlxG.camera.angle = 50;
+		    camHUD.angle = 50;
+        }
+	    if(step == 1052){
+		    FlxG.camera.zoom = 1;
+		     FlxG.camera.angle = 0;
+		    camHUD.angle = 0;
+        }
+        }
 	}
 
 	var lightningStrikeBeat:Int = 0;
@@ -3528,6 +3654,14 @@ class PlayState extends MusicBeatState
 				boyfriend.playAnim('hey', true);
 				dad.playAnim('cheer', true);
 			}
+		if(curSong.toLowerCase() == 'trunk'){
+                    if(curBeat >= 62 && curBeat % 1 == 0 && curStep < 318){
+                        camHUD.zoom = 0.7;
+                        FlxG.camera.zoom = 0.9;
+                        FlxTween.tween(camHUD, {zoom:0.7}, 0.2, {ease: FlxEase.linear});
+                        FlxTween.tween(FlxG.camera, {zoom:0.7}, 0.2, {ease: FlxEase.linear});
+                     }   
+                }
 
 		switch (curStage)
 		{
