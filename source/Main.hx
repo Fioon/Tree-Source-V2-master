@@ -132,7 +132,7 @@ class Main extends Sprite
 		#end
 	}
 
-	//var game:FlxGame;
+	var game:FlxGame;
 
 	var fpsCounter:FPS;
 
@@ -160,57 +160,4 @@ class Main extends Sprite
 		return fpsCounter.currentFPS;
 	}
 
-	function onCrash(e:UncaughtErrorEvent):Void
-	{
-		var errMsg:String = "";
-		var path:String;
-		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
-		var dateNow:String = Date.now().toString();
-
-		dateNow = StringTools.replace(dateNow, " ", "_");
-		dateNow = StringTools.replace(dateNow, ":", "'");
-
-		path = SUtil.getPath() + "crash/" + "KE_" + dateNow + ".txt";
-
-		for (stackItem in callStack)
-		{
-			switch (stackItem)
-			{
-				case FilePos(s, file, line, column):
-					errMsg += file + " (line " + line + ")\n";
-				default:
-					Sys.println(stackItem);
-			}
-		}
-
-		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/Yoshubs/Forever-Engine";
-
-		if (!FileSystem.exists(SUtil.getPath() + "crash/"))
-			FileSystem.createDirectory(SUtil.getPath() + "crash/");
-
-		File.saveContent(path, errMsg + "\n");
-
-		Sys.println(errMsg);
-		Sys.println("Crash dump saved in " + Path.normalize(path));
-
-		var crashDialoguePath:String = SUtil.getPath() + "FE-CrashDialog";
-
-		#if windows
-		crashDialoguePath += ".exe";
-		#end
-
-		if (FileSystem.exists(crashDialoguePath))
-		{
-			Sys.println("Found crash dialog: " + crashDialoguePath);
-			new Process(crashDialoguePath, [path]);
-		}
-		else
-		{
-			Sys.println("No crash dialog found! Making a simple alert instead...");
-			Application.current.window.alert(errMsg, "Error!");
-		}
-
-                Application.current.window.alert(errMsg, "Kade Engine 1.4.2 | Error!");
-		Sys.exit(1);
-	}
 }
