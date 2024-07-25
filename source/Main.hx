@@ -32,7 +32,7 @@ class Main extends Sprite
 	{
 
 		// quick checks 
-                Application.current.window.alert("main", "1");
+                SUtil.applicationAlert("main", "1");
 		Lib.current.addChild(new Main());
 	}
 
@@ -42,8 +42,8 @@ class Main extends Sprite
 		super();
 
 		
-                Application.current.window.alert("new","2");
-		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
+                SUtil.applicationAlert("new","2");
+		//Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 		
 		if (stage != null)
 		{
@@ -57,7 +57,7 @@ class Main extends Sprite
 
 	private function init(?E:Event):Void
 	{
-		Application.current.window.alert("init","3");
+		SUtil.applicationAlert("init","3");
 		if (hasEventListener(Event.ADDED_TO_STAGE))
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
@@ -68,7 +68,7 @@ class Main extends Sprite
 
 	private function setupGame():Void
 	{
-		Application.current.window.alert("setupGame","4");
+		SUtil.applicationAlert("setupGame","4");
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
 
@@ -93,7 +93,7 @@ class Main extends Sprite
 		initialState = TitleState;
 		#end
 
-		Application.current.window.alert("set3","6");
+		SUtil.applicationAlert("set3","6");
 
 		//game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 
@@ -124,7 +124,7 @@ class Main extends Sprite
 		GlobalVideo.setWebm(webmHandle);
 		#end
                 */
-		Application.current.window.alert("set2","5");
+		SUtil.applicationAlert("set2","5");
 
 
 		#if mobile
