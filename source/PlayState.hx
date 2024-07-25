@@ -58,7 +58,7 @@ import mobile.Mobilecontrols;
 #if windows
 import Discord.DiscordClient;
 #end
-#if android
+#if windows
 import Sys;
 import sys.FileSystem;
 #end
@@ -208,11 +208,11 @@ class PlayState extends MusicBeatState
 	// Replay shit
 	private var saveNotes:Array<Float> = [];
 
-        #if mobileC
+  #if mobileC
 	var mcontrols:Mobilecontrols; 
 	#end
     
-	private var executeModchart = true;
+	private var executeModchart = false;
 
 	// API stuff
 	
@@ -240,19 +240,14 @@ class PlayState extends MusicBeatState
 		repPresses = 0;
 		repReleases = 0;
 
-		try{
-                    #if android
-		    executeModchart = FileSystem.exists(SUtil.getPath() + "assets/data/" + PlayState.SONG.song.toLowerCase() + "/modchart.lua");
-		    #end	
-		    /*#if !cpp
-		    executeModchart = false; // FORCE disable for non cpp targets
-		    #end*/
-		    trace('Mod chart: ' + executeModchart + " - " + FileSystem.exists(SUtil.getPath() + "assets/data/" + PlayState.SONG.song.toLowerCase() + "/modchart.lua"));
-		}
-		catch (e:Dynamic)
-		{
-			Application.current.window.alert("Lua Loading Error!-01" + e, "Error!");
-		}
+		#if windows
+		executeModchart = FileSystem.exists(Paths.lua(PlayState.SONG.song.toLowerCase()  + "/modchart"));
+		#end
+		#if !cpp
+		executeModchart = false; // FORCE disable for non cpp targets
+		#end
+
+		trace('Mod chart: ' + executeModchart + " - " + Paths.lua(PlayState.SONG.song.toLowerCase() + "/modchart"));
 
 		#if windows
 		// Making difficulty text for Discord Rich Presence.
@@ -1264,8 +1259,7 @@ class PlayState extends MusicBeatState
 
 	var luaWiggles:Array<WiggleEffect> = [];
 
-	#if android
-	public static var Modchart:String = SUtil.getPath() + "assets/data/" + PlayState.SONG.song.toLowerCase() + "/modchart.lua";
+	#if windows
 	public static var luaModchart:ModchartState = null;
 	#end
 
@@ -1277,17 +1271,11 @@ class PlayState extends MusicBeatState
 		generateStaticArrows(1);
 
 
-		#if android
-	        try{
-		    if (executeModchart && FileSystem.exists(Modchart))
-		    {
-			luaModchart = ModchartState.createModchartState(Modchart);
-			luaModchart.executeState('start',[PlayState.SONG.song]);
-		    }
-		}
-		catch (e:Dynamic)
+		#if windows
+		if (executeModchart)
 		{
-			Application.current.window.alert("An error while loading the Lua-02:\n" + e, "Error!");
+			luaModchart = ModchartState.createModchartState();
+			luaModchart.executeState('start',[PlayState.SONG.song]);
 		}
 		#end
 
@@ -1820,8 +1808,7 @@ class PlayState extends MusicBeatState
 		if (FlxG.save.data.botplay && FlxG.keys.justPressed.ONE)
 			camHUD.visible = !camHUD.visible;
 
-		#if android
-		try{
+		#if windows
 		if (executeModchart && luaModchart != null && songStarted)
 		{
 			luaModchart.setVar('songPos',Conductor.songPosition);
@@ -1874,11 +1861,7 @@ class PlayState extends MusicBeatState
 					playerStrums.members[i].visible = p2;
 			}
 		}
-		}
-		catch (e:Dynamic)
-		{
-			Application.current.window.alert("An error while loading the lua-03:\n" + e, "Error!");
-		}
+
 		#end
 
 		// reverse iterate to remove oldest notes first and not invalidate the iteration
@@ -1934,7 +1917,13 @@ class PlayState extends MusicBeatState
 			paused = true;
 
 			// 1 / 1000 chance for Gitaroo Man easter egg
-			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+			if (FlxG.random.bool(0.1))
+			{
+				// gitaroo man easter egg
+				FlxG.switchState(new GitarooPause());
+			}
+			else
+				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
 		if (FlxG.keys.justPressed.SEVEN)
@@ -1943,7 +1932,7 @@ class PlayState extends MusicBeatState
 			DiscordClient.changePresence("Chart Editor", null, null, true);
 			#end
 			FlxG.switchState(new ChartingState());
-			#if android
+			#if windows
 			if (luaModchart != null)
 			{
 				luaModchart.die();
@@ -2132,24 +2121,16 @@ class PlayState extends MusicBeatState
 				}
 			}
 			
-			#if android
-			try{				
+			#if windows
 			if (luaModchart != null)
 				luaModchart.setVar("mustHit",PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection);
-			}
-			catch (e:Dynamic)
-		        {
-			         Application.current.window.alert("An error while loading the stage:\n" + e, "Stage Error!");
-		        }
 			#end
 
 			if (camFollow.x != dad.getMidpoint().x + 150 && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
 			{
 				var offsetX = 0;
 				var offsetY = 0;
-				
-				try{
-				#if android
+				#if windows
 				if (luaModchart != null)
 				{
 					offsetX = luaModchart.getVar("followXOffset", "float");
@@ -2157,16 +2138,10 @@ class PlayState extends MusicBeatState
 				}
 				#end
 				camFollow.setPosition(dad.getMidpoint().x + 150 + offsetX, dad.getMidpoint().y - 100 + offsetY);
-				#if android
+				#if windows
 				if (luaModchart != null)
 					luaModchart.executeState('playerTwoTurn', []);
 				#end
-				}
-				catch (e:Dynamic)
-		{
-			Application.current.window.alert("An error while loading the stage-05:\n" + e, "Stage Error!");
-		}
-				
 				// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
 
 				switch (dad.curCharacter)
@@ -2191,7 +2166,7 @@ class PlayState extends MusicBeatState
 			{
 				var offsetX = 0;
 				var offsetY = 0;
-				#if android
+				#if windows
 				if (luaModchart != null)
 				{
 					offsetX = luaModchart.getVar("followXOffset", "float");
@@ -2200,7 +2175,7 @@ class PlayState extends MusicBeatState
 				#end
 				camFollow.setPosition(boyfriend.getMidpoint().x - 100 + offsetX, boyfriend.getMidpoint().y - 100 + offsetY);
 
-				#if android
+				#if windows
 				if (luaModchart != null)
 					luaModchart.executeState('playerOneTurn', []);
 				#end
@@ -2421,7 +2396,7 @@ class PlayState extends MusicBeatState
 						}
 						
 	
-						#if android
+						#if windows
 						if (luaModchart != null)
 							luaModchart.executeState('playerTwoSing', [Math.abs(daNote.noteData), Conductor.songPosition]);
 						#end
@@ -2505,7 +2480,7 @@ class PlayState extends MusicBeatState
 	}
 	function endSynergy():Void {
 		canPause = false;
-		#if android
+		#if windows
 		if (luaModchart != null)
 		{
 			luaModchart.die();
@@ -2541,7 +2516,7 @@ class PlayState extends MusicBeatState
 		if (FlxG.save.data.fpsCap > 290)
 			(cast (Lib.current.getChildAt(0), Main)).setFPSCap(290);
 
-		#if android
+		#if windows
 		if (luaModchart != null)
 		{
 			luaModchart.die();
@@ -2583,7 +2558,7 @@ class PlayState extends MusicBeatState
 
 					FlxG.switchState(new StoryMenuState());
 
-					#if android
+					#if windows
 					if (luaModchart != null)
 					{
 						luaModchart.die();
@@ -3158,7 +3133,7 @@ class PlayState extends MusicBeatState
 					boyfriend.playAnim('singRIGHTmiss', true);
 			}
 
-			#if android
+			#if windows
 			if (luaModchart != null)
 				luaModchart.executeState('playerOneMiss', [direction, Conductor.songPosition]);
 			#end
@@ -3309,7 +3284,7 @@ class PlayState extends MusicBeatState
 							boyfriend.playAnim('singLEFT', true);
 					}
 		
-					#if android
+					#if windows
 					if (luaModchart != null)
 						luaModchart.executeState('playerOneSing', [note.noteData, Conductor.songPosition]);
 					#end
@@ -3445,7 +3420,7 @@ class PlayState extends MusicBeatState
 			resyncVocals();
 		}
 
-		#if android
+		#if windows
 		if (executeModchart && luaModchart != null)
 		{
 			luaModchart.setVar('curStep',curStep);
@@ -3484,7 +3459,7 @@ class PlayState extends MusicBeatState
 			notes.sort(FlxSort.byY, (FlxG.save.data.downscroll ? FlxSort.ASCENDING : FlxSort.DESCENDING));
 		}
 
-		#if android
+		#if windows
 		if (executeModchart && luaModchart != null)
 		{
 			luaModchart.setVar('curBeat',curBeat);
