@@ -83,42 +83,47 @@ class SUtil
 	/**
 	 * Uncaught error handler original made by: sqirra-rng
 	 */
-	public static function uncaughtErrorHandler()
+	public static function gameCrashCheck()
 	{
-		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, function(u:UncaughtErrorEvent)
-		{
-			var callStack:Array<StackItem> = CallStack.exceptionStack(true);
-			var errMsg:String = '';
-
-			for (stackItem in callStack)
-			{
-				switch (stackItem)
-				{
-					case FilePos(s, file, line, column):
-						errMsg += file + ' (line ' + line + ')\n';
-					default:
-						Sys.println(stackItem);
-				}
-			}
-
-			errMsg += u.error;
-
-			Sys.println(errMsg);
-			SUtil.applicationAlert('Error!', errMsg);
-
-			try
-			{
-				if (!FileSystem.exists(SUtil.getPath() + 'crash/'))
-					FileSystem.createDirectory(SUtil.getPath() + 'crash/');
-
-				File.saveContent(SUtil.getPath() + 'crash/' + Application.current.meta.get('file') + '_' + FlxStringUtil.formatTime(Sys.time(), true) + '.log', errMsg + "\n");
-			}
-			catch (e:Dynamic)
-				SUtil.applicationAlert('Error!', "Clouldn't save the crash dump because: " + e);
-
-			System.exit(1);
-		});
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 	}
+
+	public static function onCrash(e:UncaughtErrorEvent):Void
+	{
+		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
+		var dateNow:String = Date.now().toString();
+		dateNow = StringTools.replace(dateNow, " ", "_");
+		dateNow = StringTools.replace(dateNow, ":", "'");
+
+		var path:String = "crash/" + "crash_" + dateNow + ".txt";
+		var errMsg:String = "";
+
+		for (stackItem in callStack)
+		{
+			switch (stackItem)
+			{
+				case FilePos(s, file, line, column):
+					errMsg += file + " (line " + line + ")\n";
+				default:
+					Sys.println(stackItem);
+			}
+		}
+
+		errMsg += e.error;
+
+		if (!FileSystem.exists(SUtil.getPath() + "crash"))
+		FileSystem.createDirectory(SUtil.getPath() + "crash");
+
+		File.saveContent(SUtil.getPath() + path, errMsg + "\n");
+
+		Sys.println(errMsg);
+		Sys.println("Crash dump saved in " + Path.normalize(path));
+		Sys.println("Making a simple alert ...");
+
+		SUtil.applicationAlert("Uncaught Error :(!", errMsg);
+		System.exit(0);
+	}
+
 
 	public static function applicationAlert(title:String, description:String)
 	{
