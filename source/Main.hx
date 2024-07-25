@@ -13,6 +13,11 @@ import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.events.UncaughtErrorEvent;
+import sys.FileSystem;
+import sys.io.File;
+import sys.io.Process;
+import haxe.CallStack.StackItem;
+import haxe.CallStack;
 
 class Main extends Sprite
 {
@@ -20,7 +25,11 @@ class Main extends Sprite
 	var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
 	var initialState:Class<FlxState> = TitleState; // The FlxState the game starts with.
 	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
-	var framerate:Int = 120; // How many frames per second the game should run at.
+	#if mobileC
+	var framerate:Int = 60; // How many frames per second the game should run at.
+	#else
+	var framerate:Int = 120;
+	#end
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 
@@ -32,19 +41,15 @@ class Main extends Sprite
 	{
 
 		// quick checks 
-                SUtil.applicationAlert("main", "1");
+
 		Lib.current.addChild(new Main());
 	}
 
 	public function new()
-	{      
-		SUtil.gameCrashCheck();
+	{
 		super();
 
-		
-                SUtil.applicationAlert("new","2");
-		//Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
-		
+		//Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, function(u:UncaughtErrorEvent)
 		if (stage != null)
 		{
 			init();
@@ -55,20 +60,21 @@ class Main extends Sprite
 		}
 	}
 
+	// public static var webmHandler:WebmHandler;
+
 	private function init(?E:Event):Void
 	{
-		SUtil.applicationAlert("init","3");
 		if (hasEventListener(Event.ADDED_TO_STAGE))
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 		}
 
+		//SUtil.applicationAlert('init', 'a');
 		setupGame();
 	}
 
 	private function setupGame():Void
 	{
-		SUtil.applicationAlert("setupGame","4");
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
 
@@ -81,57 +87,24 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
-		#if android
+		#if mobile
 		gameWidth = 1280;
 		gameHeight = 720;
 		zoom = 1;
 		#end
 
 		SUtil.check();
-
-		#if !debug
-		initialState = TitleState;
-		#end
-
-		SUtil.applicationAlert("set3","6");
-
+			
 		//game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
-
-		var game:FlxGame;
-		game = new FlxGame(gameWidth, gameHeight, initialState, #if (flixel < "5.0.0") zoom, #end framerate, framerate, skipSplash);
-		addChild(game);
-
 		//addChild(game);
-
-		/*var ourSource:String = "assets/videos/DO NOT DELETE OR GAME WILL CRASH/dontDelete.webm";
-
-		#if web
-		var str1:String = "HTML CRAP";
-		var vHandler = new VideoHandler();
-		vHandler.init1();
-		vHandler.video.name = str1;
-		addChild(vHandler.video);
-		vHandler.init2();
-		GlobalVideo.setVid(vHandler);
-		vHandler.source(ourSource);
-		#elseif desktop
-		var str1:String = "WEBM SHIT"; 
-		var webmHandle = new WebmHandler();
-		webmHandle.source(ourSource);
-		webmHandle.makePlayer();
-		webmHandle.webm.name = str1;
-		addChild(webmHandle.webm);
-		GlobalVideo.setWebm(webmHandle);
-		#end
-                */
-		SUtil.applicationAlert("set2","5");
-
-
-		#if mobile
-		fpsCounter = new FPS(10, 3, 0xFFFFFF);
+		var gameCreate:FlxGame;
+		addChild(new FlxGame(gameWidth, gameHeight, initialState, #if (flixel < "5.0.0") zoom, #end framerate, framerate, skipSplash));
+		
+		fpsCounter = new FPS(10, 30, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
-		#end
+
+		//SUtil.applicationAlert('setupGame', 'b');
 	}
 
 	var game:FlxGame;
@@ -161,5 +134,41 @@ class Main extends Sprite
 	{
 		return fpsCounter.currentFPS;
 	}
+	
+	/*public static function uncaughtErrorHandler()
+	{
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, function(u:UncaughtErrorEvent)
+		{
+			var callStack:Array<StackItem> = CallStack.exceptionStack(true);
+			var errMsg:String = '';
 
+			for (stackItem in callStack)
+			{
+				switch (stackItem)
+				{
+					case FilePos(s, file, line, column):
+						errMsg += file + ' (line ' + line + ')\n';
+					default:
+						Sys.println(stackItem);
+				}
+			}
+
+			errMsg += u.error;
+
+			Sys.println(errMsg);
+			SUtil.applicationAlert('Error!', errMsg);
+
+			try
+			{
+				if (!FileSystem.exists(SUtil.getPath() + 'crash/'))
+					FileSystem.createDirectory(SUtil.getPath() + 'crash/');
+
+				File.saveContent(SUtil.getPath() + 'crash/' + Application.current.meta.get('file') + '_' + FlxStringUtil.formatTime(Sys.time(), true) + '.log', errMsg + "\n");
+			}
+			catch (e:Dynamic)
+				SUtil.applicationAlert('Error!', "Clouldn't save the crash dump because: " + e);
+
+			System.exit(1);
+		});
+	}*/
 }
