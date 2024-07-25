@@ -3448,129 +3448,129 @@ class PlayState extends MusicBeatState
 		// Updating Discord Rich Presence (with Time Left)
 		DiscordClient.changePresence(detailsText + " " + SONG.song + " (" + storyDifficultyText + ") " + Ratings.GenerateLetterRank(accuracy), "Acc: " + HelperFunctions.truncateFloat(accuracy, 2) + "% | Score: " + songScore + " | Misses: " + misses  , iconRPC,true,  songLength - Conductor.songPosition);
 		#end
-
-		 if(curSong.toLowerCase() == 'trunk'){
-        if(curstep >= 320){
+			if(curSong.toLowerCase() == 'trunk'){
+        if(curStep >= 320){
             swaying = true;
 		    move = true;
 		}
-		if(step >= 447){
+		if(curStep >= 447){
             swaying = false;
 		    move = false;
 	    }
-	    if(step >= 831){
+	    if(curStep >= 831){
             swaying = true;
 		    move = true;
 		}
-	    if(step >= 959){
+	    if(curStep >= 959){
             swaying = false;
 		    move = false;
 		}	
-	    if(step == 464){
+	    if(curStep == 464){
 		    FlxG.camera.zoom = 1.2;
 		    FlxG.camera.angle = 10;
 		    camHUD.angle = 10;
 		}
-	    if(step == 468){
+	    if(curStep == 468){
 		    FlxG.camera.zoom = 1.8;
 		    FlxG.camera.angle = 30;
 		    camHUD.angle = 30;
 		}
-	    if(step == 472){
+	    if(curStep == 472){
 		    FlxG.camera.zoom = 2.3;
 		    FlxG.camera.angle = 50;
 		    camHUD.angle = 50;
         }
-	    if(step == 476){
+	    if(curStep == 476){
 		    FlxG.camera.zoom = 1;
 		    FlxG.camera.angle = 0;
 		    camHUD.angle = 0;
         }	
-	    if(step == 528){
+	    if(curStep == 528){
 		    FlxG.camera.zoom = 1.2;
 		    FlxG.camera.angle = 10;
 		    camHUD.angle = 10;
         }
-	    if(step == 532){
+	    if(curStep == 532){
 		    FlxG.camera.zoom = 1.8;
 		    FlxG.camera.angle = 30;
 		    camHUD.angle = 30;
         }
-	    if(step == 536){
+	    if(curStep == 536){
 		    FlxG.camera.zoom = 2.3;
 		    FlxG.camera.angle = 50;
 		    camHUD.angle = 50;
         }
-	    if(step == 540){
+	    if(curStep == 540){
 		    FlxG.camera.zoom = 1;
 		    FlxG.camera.angle = 0;
 		    camHUD.angle = 0;
         }
-	    if(step == 576){
+	    if(curStep == 576){
 		    FlxG.camera.zoom = 0.6;
 		    camHUD.zoom = 0.6;
         }
-	    if(step == 619){
+	    if(curStep == 619){
 		    FlxG.camera.zoom = 0.3;
 		    camHUD.zoom = 0.3;
         }
-	    if(step == 639){
+	    if(curStep == 639){
 		   FlxG.camera.zoom = 1.0;
 		   camHUD.zoom = 1.0;
         }	
-	    if(step == 651){
+	    if(curStep == 651){
 		    FlxG.camera.zoom = 0.6;
 		    camHUD.zoom = 0.6;
         }
-	    if(step == 670){
+	    if(curStep == 670){
 		    FlxG.camera.zoom = 0.3;
 		    camHUD.zoom = 0.3;
         }
-	    if(step == 703){
+	    if(curStep == 703){
 		    FlxG.camera.zoom = 1.0;
 		    camHUD.zoom = 1.0;
         }
-	    if(step == 976){
+	    if(curStep == 976){
 		    FlxG.camera.zoom = 1.2;
 		    FlxG.camera.angle = 10;
 		    camHUD.angle = 10;
         }
-	    if(step == 980){
+	    if(curStep == 980){
 		    FlxG.camera.zoom = 1.8;
 		     FlxG.camera.angle = 30;
 		    camHUD.angle = 30;
         }
-	    if(step == 984){
+	    if(curStep == 984){
 		    FlxG.camera.zoom = 2.3;
     		 FlxG.camera.angle = 50;
 		    camHUD.angle = 50;
         }
-	    if(step == 988){
+	    if(curStep == 988){
 		    FlxG.camera.zoom = 1;
 		     FlxG.camera.angle = 0;
 		    camHUD.angle = 0;
         }	
-	    if(step == 1040){
+	    if(curStep == 1040){
 		    FlxG.camera.zoom = 1.2;
 		     FlxG.camera.angle = 10;
 		    camHUD.angle = 10;
         }
-	    if(step == 1044){
+	    if(curStep == 1044){
 		    FlxG.camera.zoom = 1.8;
 		     FlxG.camera.angle = 30;
 		    camHUD.angle = 30;
         }
-	    if(step == 1048){
+	    if(curStep == 1048){
 		    FlxG.camera.zoom = 2.3;
 		     FlxG.camera.angle = 50;
 		    camHUD.angle = 50;
         }
-	    if(step == 1052){
+	    if(curStep == 1052){
 		    FlxG.camera.zoom = 1;
 		     FlxG.camera.angle = 0;
 		    camHUD.angle = 0;
         }
-        }
+    }
+
 	}
 
 	var lightningStrikeBeat:Int = 0;
