@@ -37,8 +37,8 @@ class Main extends Sprite
 	}
 
 	public function new()
-	{
-		SUtil.check();
+	{      
+		SUtil.gameCrashCheck()
 		super();
 
 		
@@ -86,6 +86,8 @@ class Main extends Sprite
 		gameHeight = 720;
 		zoom = 1;
 		#end
+
+		SUtil.check();
 
 		#if !debug
 		initialState = TitleState;
