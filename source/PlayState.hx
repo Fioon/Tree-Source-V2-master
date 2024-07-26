@@ -1816,7 +1816,7 @@ class PlayState extends MusicBeatState
 	{
 		if(swaying == true && move == true){
 		    try{
-                    currentBeat = (swayingForce/1000)*(bpm/120);
+                    currentBeat = (swayingForce/1000)*(Conductor.bpm/120);
                     if(waitForTween == false){
 			swayingForce += 4;
 			for (i in 0...7)
