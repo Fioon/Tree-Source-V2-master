@@ -70,6 +70,10 @@ class PlayState extends MusicBeatState
 
 	private var swaying:Bool = false;
 	private var move:Bool = false;
+	private var currentBeat:Float = 0;
+        private var swayingForce:Float = 0;
+        private var waitForTween:Bool = false;
+        private var waitForBeat:Bool = false;
 	
 	public static var instance:PlayState = null;
 
@@ -1160,6 +1164,11 @@ class PlayState extends MusicBeatState
 		if (!loadRep)
 			rep = new Replay("na");
 
+                if(curSong.toLowerCase() == 'trunk')
+                    swayingForce = 0.5;
+
+                if(curSong.toLowerCase() == 'warning')
+                    swayingForce = 1;
 		super.create();
 	}
 
@@ -1805,6 +1814,23 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		if(swaying == true && move == true){
+		    try{
+                    currentBeat = (swayingForce/1000)*(bpm/120);
+                    if(waitForTween == false){
+			swayingForce += 4;
+			for (i in 0...7)
+		        {
+		             strumLineNotes.members[i].x += 64 * Math.sin(currentBeat * Math.PI);
+			}
+		    }
+		    }
+		    catch (e:Dynamic)
+		    {
+			Application.current.window.alert("An error while loading the modchart:\n" + e, "Error!");
+		    }
+                }
+		
 		#if !debug
 		perfectMode = false;
 		#end
@@ -3570,6 +3596,66 @@ class PlayState extends MusicBeatState
 		    camHUD.angle = 0;
         }
     }
+    if(curSong.toLowerCase() == 'warning'){
+        if(curStep >= 511){
+            swaying = true;
+		    move = true;
+	    }
+	    if(curStep >= 1023){
+            swaying = false;
+		    move = false;
+	    }	
+	    if(curStep == 384){
+		    FlxG.camera.zoom = 2.4;
+		    FlxG.camera.angle = 25;
+		    camHUD.angle = 25;
+	    }	
+	    if(curStep == 400){
+		    FlxG.camera.zoom = 2.4;
+		    FlxG.camera.angle = -25;
+		    camHUD.angle = -25;
+	    }	
+	    if(curStep == 416){
+		    FlxG.camera.zoom = 2.4;
+		    FlxG.camera.angle = 25;
+		    camHUD.angle = 25;
+        }	
+	    if(curStep == 432){
+		    FlxG.camera.zoom = 2.4;
+		    FlxG.camera.angle = -25;
+		    camHUD.angle = -25;
+        }		
+	    if(curStep == 448){
+		    FlxG.camera.zoom = 1;
+		    FlxG.camera.angle = 0;
+		    camHUD.angle = 0;
+        }			
+	    if(curStep == 1152){
+		    FlxG.camera.zoom = 2.4;
+		    FlxG.camera.angle = 25;
+		    camHUD.angle = 25;
+	    }	
+	    if(curStep == 1168){
+		    FlxG.camera.zoom = 2.4;
+		    FlxG.camera.angle = -25;
+		    camHUD.angle = -25;
+	    }	
+	    if(curStep == 1184){
+		    FlxG.camera.zoom = 2.4;
+		    FlxG.camera.angle = 25;
+		    camHUD.angle = 25;
+        }	
+	    if(curStep == 1200){
+		    FlxG.camera.zoom = 2.4;
+		    FlxG.camera.angle = -25;
+		    camHUD.angle = -25;
+        }		
+	    if(curStep == 1216){
+		    FlxG.camera.zoom = 1;
+		    FlxG.camera.angle = 0;
+		    camHUD.angle = 0;
+        }			  
+    }
 
 	}
 
@@ -3655,13 +3741,36 @@ class PlayState extends MusicBeatState
 				dad.playAnim('cheer', true);
 			}
 		if(curSong.toLowerCase() == 'trunk'){
-                    if(curBeat >= 62 && curBeat % 1 == 0 && curStep < 318){
+                    if(curStep >= 62 && curBeat % 1 == 0 && curStep < 318){
                         camHUD.zoom = 0.7;
                         FlxG.camera.zoom = 0.9;
                         FlxTween.tween(camHUD, {zoom:0.7}, 0.2, {ease: FlxEase.linear});
                         FlxTween.tween(FlxG.camera, {zoom:0.7}, 0.2, {ease: FlxEase.linear});
                      }   
                 }
+
+       if(curSong.toLowerCase() == 'warning'){
+        if(curStep >= -1 && curBeat % 1 == 0 && curStep < 64){
+		    FlxG.camera.zoom = 0.9;
+            FlxTween.tween(FlxG.camera, {zoom:0.9}, 0.1, {ease: FlxEase.linear});	
+        }
+        if(curStep >= 128 && curBeat % 2 == 0 && curStep < 256){
+            FlxG.camera.zoom = 0.8;
+            FlxTween.tween(FlxG.camera, {zoom:0.8}, 0.1, {ease: FlxEase.linear});
+        }
+        if(curStep >= 256 && curBeat % 1 == 0 && curStep < 383){
+            camHUD.zoom = 0.7;
+            FlxG.camera.zoom = 0.7;		
+            FlxTween.tween(camHUD, {zoom:0.7}, 0.1, {ease: FlxEase.linear});
+            FlxTween.tween(FlxG.camera, {zoom:0.7}, 0.1, {ease: FlxEase.linear});			
+        }
+        if(curStep >= 767 && curBeat % 1 == 0 && curStep < 1151){
+            camHUD.zoom = 0.7;
+            FlxG.camera.zoom = 0.7;	
+            FlxTween.tween(camHUD, {zoom:0.7}, 0.1, {ease: FlxEase.linear});
+            FlxTween.tween(FlxG.camera, {zoom:0.7}, 0.1, {ease: FlxEase.linear});			
+        }
+     }
 
 		switch (curStage)
 		{
