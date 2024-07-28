@@ -68,7 +68,7 @@ class Hitbox extends FlxSpriteGroup
 		add(buttonDown = createHint(FlxG.width / 4, 0, Std.int(FlxG.width / 4), Std.int(FlxG.height * 1), 0x00FFFF));
 		add(buttonUp = createHint(FlxG.width / 2, 0, Std.int(FlxG.width / 4), Std.int(FlxG.height * 1), 0x00FF00));
 		add(buttonRight = createHint((FlxG.width / 2) + (FlxG.width / 4), 0, Std.int(FlxG.width / 4), Std.int(FlxG.height * 1), 0xFF0000));
-        
+        scrollFactor.set();
     }
     
     private function createHintGraphic(Width:Int, Height:Int, Color:Int = 0xFFFFFF):BitmapData
