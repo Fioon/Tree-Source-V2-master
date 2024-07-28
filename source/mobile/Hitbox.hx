@@ -17,7 +17,8 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import openfl.display.BitmapData;
 import openfl.display.Shape;
-import mobile.flixel.FlxButton;
+import flixel.ui.FlxButton;
+//import mobile.flixel.FlxButton;
 
 // copyed from flxvirtualpad
 class Hitbox extends FlxSpriteGroup
