@@ -1165,10 +1165,10 @@ class PlayState extends MusicBeatState
 			rep = new Replay("na");
 
                 if(curSong.toLowerCase() == 'trunk')
-                    swayingForce = 0.5;
+                    swayingForce = 0.2;
 
                 if(curSong.toLowerCase() == 'warning')
-                    swayingForce = 1;
+                    swayingForce = 0.7;
 		super.create();
 	}
 
@@ -1818,7 +1818,7 @@ class PlayState extends MusicBeatState
 		    try{
                     currentBeat = (swayingForce/1000)*(Conductor.bpm/120);
                     if(waitForTween == false){
-			swayingForce += 4;
+			swayingForce += 0.1;
 			for (i in 0...7)
 		        {
 		             strumLineNotes.members[i].x += 64 * Math.sin(currentBeat * Math.PI);
