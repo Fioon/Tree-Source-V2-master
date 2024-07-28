@@ -14,7 +14,7 @@ import flixel.input.keyboard.FlxKey;
 import mobile.Hitbox;
 import mobile.FlxVirtualPad;
 import flixel.ui.FlxButton;
-import android.flixel.FlxButton as FlxNewButton;
+import mobile.flixel.FlxButton as FlxNewButton;
 #end
 
 #if (haxe >= "4.1.0")
