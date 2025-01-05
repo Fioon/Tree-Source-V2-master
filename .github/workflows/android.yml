@@ -45,18 +45,19 @@ jobs:
         run: |
           haxelib setup ~/haxelib
           haxelib install hxcpp > /dev/null
-          haxelib install lime 7.9.0
-          haxelib install openfl 9.2.0
-          haxelib install flixel 5.5.0
+          haxelib install lime 7.9.0  --quiet
+          haxelib install openfl 9.2.0 --quiet
+          haxelib install flixel 5.5.0 --quiet
+          haxelib install flixel-ui 2.4.0 --quiet
           haxelib run lime setup flixel
           haxelib run lime setup
-          haxelib install hscript
-          haxelib install flixel-addons 2.11.0
-          haxelib install extension-androidtools 1.4.0
-          haxelib install actuate
+          haxelib install hscript --quiet
+          haxelib install flixel-addons 2.11.0 --quiet
+          haxelib install extension-androidtools 1.4.0 --quiet
+          haxelib install actuate --quiet
           haxelib git linc_luajit https://github.com/Sirox228/linc_luajit
-          haxelib install extension-webm
-          haxelib install newgrounds
+          haxelib install extension-webm --quiet
+          haxelib install newgrounds --quiet
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib git faxe https://github.com/ashea-code/faxe
           haxelib list
