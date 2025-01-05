@@ -49,11 +49,10 @@ jobs:
           haxelib install openfl 9.2.0
           haxelib install flixel 5.5.0
           haxelib run lime setup flixel
-          haxelib install flixel-tools
           haxelib run lime setup
-          haxelib install flixel-ui
+          haxelib install flixel-ui 2.4.0
           haxelib install hscript
-          haxelib install flixel-addons
+          haxelib install flixel-addons 2.11.0
           haxelib install extension-androidtools 1.4.0
           haxelib install actuate
           haxelib git linc_luajit https://github.com/Sirox228/linc_luajit
