@@ -32,10 +32,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@main
-
+    
       - name: Setup Haxe
         uses: krdlab/setup-haxe@v1.1.5
         with:
@@ -71,12 +68,6 @@ jobs:
           haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_HOME
           haxelib run lime config JAVA_HOME $JAVA_HOME
           haxelib run lime config ANDROID_SETUP true 
-          haxelib set lime 7.9.0
-          haxelib set openfl 9.2.0
-          haxelib set flixel 5.5.0
-          haxelib set flixel-ui 2.4.0
-          haxelib set flixel-addons 2.11.0
-          haxelib set extension-androidtools 1.4.0
           
           haxelib list
         env:
