@@ -45,16 +45,15 @@ jobs:
         run: |
           haxelib setup ~/haxelib
           haxelib install hxcpp > /dev/null
-          haxelib install lime 8.2.1  --quiet
-          haxelib install openfl 9.1.0 --quiet
-          haxelib install flixel 4.11.0 --quiet
+          haxelib install lime 7.9.0  --quiet
+          haxelib install openfl 9.2.0 --quiet
+          haxelib install flixel 5.5.0 --quiet
           haxelib install flixel-ui 2.4.0 --quiet
           haxelib run lime setup flixel
           haxelib run lime setup
           haxelib install hscript --quiet
           haxelib install flixel-addons 2.11.0 --quiet
-          haxelib install extension-androidtools 1.4.0 --quiet
-          haxelib install actuate --quiet
+          haxelib install extension-androidtools 1.4.0 --quiet        
           haxelib git linc_luajit https://github.com/Sirox228/linc_luajit
           haxelib install extension-webm --quiet
           haxelib install newgrounds --quiet
@@ -74,6 +73,10 @@ jobs:
           haxelib run lime config ANDROID_SETUP true 
           haxelib set lime 7.9.0
           haxelib set openfl 9.2.0
+          haxelib set flixel 5.5.0
+          haxelib set flixel-ui 2.4.0
+          haxelib set flixel-addons 2.11.0
+          haxelib set extension-androidtools 1.4.0
           
           haxelib list
         env:
