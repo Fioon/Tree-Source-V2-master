@@ -2,13 +2,13 @@ package;
 
 import flixel.FlxG;
 import openfl.display.Sprite;
-#if desktop
+#if android
 import webm.*;
 #end
 
 class WebmHandler
 {
-	#if desktop
+	#if android
 	public var webm:WebmPlayer;
 	public var vidPath:String = "";
 	public var io:WebmIo;
@@ -163,7 +163,7 @@ class WebmHandler
 	public var webm:Sprite;
 	public function new()
 	{
-	trace("THIS IS ANDROID! or some shit...");
+	trace("THIS IS ! or some shit...");
 	}
 	#end
 }
