@@ -1,7 +1,7 @@
 // this file is for modchart things, this is to declutter playstate.hx
 
 // Lua
-#if windows
+#if android
 import flixel.tweens.FlxEase;
 import openfl.filters.ShaderFilter;
 import flixel.tweens.FlxTween;
@@ -300,7 +300,7 @@ class ModchartState
 				
 				//shaders = new Array<LuaShader>();
 
-				var result = LuaL.dofile(lua, Paths.lua(PlayState.SONG.song.toLowerCase() + "/modchart")); // execute le file
+				var result = LuaL.dofile(lua, SUtil.getPath() + Paths.lua(PlayState.SONG.song.toLowerCase() + "/modchart")); // execute le file
 	
 				if (result != 0)
 				{
