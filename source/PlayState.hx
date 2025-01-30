@@ -1815,7 +1815,7 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		if(swaying == true && move == true){
-		    try{
+		    /*try{
                     currentBeat = (swayingForce/1000)*(Conductor.bpm/120);
                     if(waitForTween == false){
 			swayingForce += 0.1;
@@ -1828,7 +1828,7 @@ class PlayState extends MusicBeatState
 		    catch (e:Dynamic)
 		    {
 			Application.current.window.alert("An error while loading the modchart:\n" + e, "Error!");
-		    }
+		    }*/
                 }
 		
 		#if !debug
